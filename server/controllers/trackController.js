@@ -3,7 +3,8 @@ const Track = require("../models/Track");
 const mongoose = require("mongoose");
 
 const getTracks = async (req, res) => {
-  const tracks = await Track.find({});
+  const user_id = req.user._id;
+  const tracks = await Track.find({ user_id });
 
   res.status(200).json(tracks);
 };
@@ -65,23 +66,27 @@ const createTrack = async (req, res) => {
     });
   }
 
-  let track = new Track({
-    title: req.body.title,
-    cover: result.filter((obj) => {
-      return obj.resource_type === "image";
-    })[0].secure_url,
-    audio: result.filter((obj) => {
-      return obj.resource_type === "video";
-    })[0].secure_url,
-    cover_cloudinary_id: result.filter((obj) => {
-      return obj.resource_type === "image";
-    })[0].public_id,
-    audio_cloudinary_id: result.filter((obj) => {
-      return obj.resource_type === "video";
-    })[0].public_id,
-  });
-
   try {
+    const user_id = req.user._id;
+    console.log(user_id);
+
+    let track = new Track({
+      title: req.body.title,
+      cover: result.filter((obj) => {
+        return obj.resource_type === "image";
+      })[0].secure_url,
+      audio: result.filter((obj) => {
+        return obj.resource_type === "video";
+      })[0].secure_url,
+      cover_cloudinary_id: result.filter((obj) => {
+        return obj.resource_type === "image";
+      })[0].public_id,
+      audio_cloudinary_id: result.filter((obj) => {
+        return obj.resource_type === "video";
+      })[0].public_id,
+      user_id: user_id,
+    });
+
     await Track.create(track);
     res.status(200).json(track);
   } catch (error) {

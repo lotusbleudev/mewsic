@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useTracksContext } from "../hooks/useTracksContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 function NewTrack() {
   const { dispatch } = useTracksContext();
+  const { user } = useAuthContext();
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState();
   const [data, setData] = useState({
@@ -24,6 +26,11 @@ function NewTrack() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!user) {
+      setError("You must be logged in");
+      return;
+    }
+
     let formData = new FormData();
     formData.append("title", data.title);
     formData.append("cover", data.cover);
@@ -32,6 +39,9 @@ function NewTrack() {
     const res = await fetch("http://localhost:4001/tracks", {
       method: "POST",
       body: formData,
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
     });
 
     const json = await res.json();

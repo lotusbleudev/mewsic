@@ -20,6 +20,10 @@ const trackSchema = new Schema({
   audio_cloudinary_id: {
     type: String,
   },
+  user_id: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Track", trackSchema);

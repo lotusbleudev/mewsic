@@ -6,8 +6,12 @@ const {
   deleteTrack,
   updateTrack,
 } = require("../controllers/trackController");
+const requireAuth = require("../middleware/requireAuth");
 const upload = require("../utils/multer");
+
 const router = express.Router();
+
+router.use(requireAuth);
 
 router.get("/", getTracks);
 
