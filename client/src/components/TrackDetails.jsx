@@ -1,10 +1,13 @@
-import React from "react";
+import { useState, useRef } from "react";
 import { useTracksContext } from "../hooks/useTracksContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import "./TrackDetails.css";
 function TrackDetails({ track }) {
   const { user } = useAuthContext();
   const { dispatch } = useTracksContext();
+  const [duration, setDuration] = useState(0);
+  const audio = useRef(null);
+
   const handleClick = async () => {
     if (!user) {
       return;
@@ -30,7 +33,7 @@ function TrackDetails({ track }) {
       <img src={track.cover} style={{ width: "50px" }} />
       <div>
         <h4>{track.title}</h4>
-        <div className="flex">
+        <div className="flex" style={{ justifyContent: "flex-start" }}>
           <p>{track.artist}</p>
           {track.album && (
             <div className="flex">
@@ -40,11 +43,21 @@ function TrackDetails({ track }) {
           )}
         </div>
       </div>
-      <audio controls>
+      <audio
+        controls
+        ref={audio}
+        onCanPlay={() => {
+          const d = new Date(audio.current.duration * 1000)
+            .toISOString()
+            .substring(14, 19);
+
+          setDuration(d);
+        }}
+      >
         <source src={track.audio} type="audio/mpeg" />
       </audio>
       <div>
-        <p>3:15</p>
+        <p>{duration}</p>
         <span className="material-symbols-outlined"> play_circle </span>
         <span className="material-symbols-outlined" onClick={handleClick}>
           delete
