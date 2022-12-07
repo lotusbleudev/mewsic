@@ -45,8 +45,8 @@ function TrackDetails({ track }) {
       </audio>
       <div>
         <p>3:15</p>
-        <span class="material-symbols-outlined"> play_circle </span>
-        <span class="material-symbols-outlined" onClick={handleClick}>
+        <span className="material-symbols-outlined"> play_circle </span>
+        <span className="material-symbols-outlined" onClick={handleClick}>
           delete
         </span>
       </div>
