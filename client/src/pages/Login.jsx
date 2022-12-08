@@ -12,21 +12,35 @@ function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      className="container flex-column"
+      style={{ backgroundColor: "#0d1117", width: "700px", margin: "auto" }}
+    >
       <h3>Login</h3>
-      <p>Email</p>
-      <input
-        type="email"
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-      />
-      <p>Password</p>
-      <input
-        type="password"
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-      />
-      <button disabled={isLoading}>Login</button>
+      <div>
+        <label>Email</label>
+        <input
+          type="email"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+          className="input"
+        />
+      </div>
+      <div style={{ marginLeft: "-27px" }}>
+        <label>Password</label>
+        <input
+          type="password"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+          className="input"
+        />
+      </div>
+      <div className="btn b" disabled={isLoading} onClick={handleSubmit}>
+        Login
+      </div>
+      <button type="submit" style={{ display: "none" }}></button>
+
       {error && <div style={{ color: "red" }}>{error}</div>}
     </form>
   );
