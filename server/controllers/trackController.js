@@ -26,7 +26,7 @@ const getTrack = async (req, res) => {
 };
 
 const createTrack = async (req, res) => {
-  const { title, artist, album } = req.body;
+  const { title } = req.body;
   const files = req.files;
   let result = [];
   for (const [name, obj] of Object.entries(files)) {
@@ -41,9 +41,6 @@ const createTrack = async (req, res) => {
 
   if (!title) {
     emptyFields.push("title");
-  }
-  if (!artist) {
-    emptyFields.push("artist");
   }
 
   if (
@@ -75,8 +72,6 @@ const createTrack = async (req, res) => {
 
     let track = new Track({
       title: req.body.title,
-      artist: req.body.artist,
-      album: req.body.album || null,
       cover: result.filter((obj) => {
         return obj.resource_type === "image";
       })[0].secure_url,

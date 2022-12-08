@@ -3,7 +3,7 @@ import NewTrack from "../components/NewTrack";
 import TrackDetails from "../components/TrackDetails";
 import { useTracksContext } from "../hooks/useTracksContext";
 import { useAuthContext } from "../hooks/useAuthContext";
-import News from "../components/News";
+
 function Home() {
   const { tracks, dispatch } = useTracksContext();
   const { user } = useAuthContext();
@@ -27,17 +27,11 @@ function Home() {
     }
   }, [dispatch, user]);
   return (
-    <>
-      <section>
-        <News />
-        <NewTrack />
-      </section>
-      <section className="container">
-        <h2>Latest Uploads</h2>
-        {tracks &&
-          tracks.map((track) => <TrackDetails key={track._id} track={track} />)}
-      </section>
-    </>
+    <div>
+      {tracks &&
+        tracks.map((track) => <TrackDetails key={track._id} track={track} />)}
+      <NewTrack />
+    </div>
   );
 }
 
