@@ -2,8 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
-import logo from "../assets/img/logo.svg";
-import "./Navbar.css";
 
 function Navbar() {
   const { logout } = useLogout();
@@ -13,27 +11,20 @@ function Navbar() {
   };
   return (
     <header>
-      <Link to="/" style={{ display: "flex", gap: "10px" }}>
-        <img src={logo} alt="" id="logo" />
+      <Link to="/">
         <h1>Mewsic</h1>
       </Link>
       <nav>
         {user && (
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <div>
             <span>{user.email}</span>
-            <div className="btn" onClick={handleClick}>
-              Log out
-            </div>
+            <button onClick={handleClick}>Log out</button>
           </div>
         )}
         {!user && (
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Link to="/login">
-              <div className="btn b">Login</div>
-            </Link>
-            <Link to="/signup">
-              <div className="btn">Sign up</div>
-            </Link>
+          <div>
+            <Link to="/login">Login</Link>
+            <Link to="/signup">Sign up</Link>
           </div>
         )}
       </nav>
