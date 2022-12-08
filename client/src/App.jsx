@@ -4,7 +4,6 @@ import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
-import NotFound from "./pages/404";
 import { useAuthContext } from "./hooks/useAuthContext";
 
 function App() {
@@ -14,7 +13,6 @@ function App() {
       <Navbar />
       <main>
         <Routes>
-          <Route path="*" element={<NotFound />} />
           <Route
             path="/"
             element={user ? <Home /> : <Navigate to="/login" />}
