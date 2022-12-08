@@ -1,0 +1,33 @@
+.track {
+  padding: 15px;
+  border-bottom: 1px solid;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(
+    90deg,
+    rgba(68, 156, 200, 0) 0%,
+    rgba(30, 38, 48, 1) 30%,
+    rgba(30, 38, 48, 1) 70%,
+    #74808600 100%
+  );
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.track > audio {
+  margin-left: 100px;
+}
+
+.track > div:last-child {
+  display: flex;
+  position: absolute;
+  right: 10px;
+  gap: 15px;
+}
+
+.track:hover {
+  background-color: #0d1117;
+}

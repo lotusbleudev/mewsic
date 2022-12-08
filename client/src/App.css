@@ -1,9 +1,109 @@
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;500&display=swap");
+
 * {
-  margin: 15px;
+  margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+a {
+  text-decoration: none;
+  color: currentColor;
+}
+
+body {
+  margin: 0 20% 110px 20%;
+  background-color: #010409;
+  color: rgb(217, 217, 217);
+  font-family: "Kanit", sans-serif;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+main > section:first-of-type {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 10px;
+}
+
+section:first-of-type > article:first-child {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+section:first-of-type > article:nth-child(2) {
+  flex: 2;
+  background-color: #0d1117;
+}
+
+.uploads > article:last-child {
+  border-bottom: none;
+}
+
+.container {
+  border: #1e2630 1px solid;
+  border-radius: 5px;
+  padding: 30px;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.input {
+  padding: 5px;
+  color: currentColor;
+  background-color: transparent;
+  border: #666e78 1px solid;
+  border-radius: 5px;
+  height: 40px;
+}
+
+.btn {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #1e2630;
+  width: fit-content;
+  cursor: pointer;
+  transition: background-color 0.5s ease;
+}
+
+.b {
+  background-color: transparent;
+  border: 1px solid #1e2630;
+}
+
+.btnb:hover {
+  background-color: #1e2630;
+}
+.btn:hover {
+  background-color: #2e3945;
+}
+
 input.error {
   border: 1px solid red;
+}
+
+label {
+  margin-right: 10px;
 }
