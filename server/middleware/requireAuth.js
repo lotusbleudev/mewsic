@@ -1,8 +1,7 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+const { getUserByIdSQL } = require("../utils/database");
 
 const requireAuth = async (req, res, next) => {
-  // verify user is authenticated
   const { authorization } = req.headers;
 
   if (!authorization) {
@@ -14,7 +13,8 @@ const requireAuth = async (req, res, next) => {
   try {
     const { _id } = jwt.verify(token, process.env.SECRET);
 
-    req.user = await User.findOne({ _id }).select("_id");
+    // req.user = await User.findOne({ _id }).select("_id");
+    req.user = await getUserByIdSQL(_id);
     next();
   } catch (error) {
     console.log(error);

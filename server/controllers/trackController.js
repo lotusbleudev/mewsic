@@ -1,22 +1,22 @@
 const cloudinary = require("../utils/cloudinary");
-const Track = require("../models/Track");
-const mongoose = require("mongoose");
+const {
+  getTracksSQL,
+  getTrackSQL,
+  createTrackSQL,
+  deleteTrackSQL,
+  updateTrackSQL,
+} = require("../utils/database");
 
 const getTracks = async (req, res) => {
   const user_id = req.user._id;
-  const tracks = await Track.find({ user_id });
-
+  const tracks = await getTracksSQL(user_id);
   res.status(200).json(tracks);
 };
 
 const getTrack = async (req, res) => {
   const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(404).json({ error: "Track not found" });
-  }
-
-  const track = await Track.findById(id);
+  const track = await getTrackSQL(id);
 
   if (!track) {
     res.status(404).json({ error: "Track not found" });
@@ -71,28 +71,25 @@ const createTrack = async (req, res) => {
 
   try {
     const user_id = req.user._id;
-    console.log(user_id);
 
-    let track = new Track({
-      title: req.body.title,
-      artist: req.body.artist,
-      album: req.body.album || null,
-      cover: result.filter((obj) => {
+    const track = await createTrackSQL(
+      req.body.title,
+      req.body.artist,
+      req.body.album || null,
+      result.filter((obj) => {
         return obj.resource_type === "image";
       })[0].secure_url,
-      audio: result.filter((obj) => {
+      result.filter((obj) => {
         return obj.resource_type === "video";
       })[0].secure_url,
-      cover_cloudinary_id: result.filter((obj) => {
+      result.filter((obj) => {
         return obj.resource_type === "image";
       })[0].public_id,
-      audio_cloudinary_id: result.filter((obj) => {
+      result.filter((obj) => {
         return obj.resource_type === "video";
       })[0].public_id,
-      user_id: user_id,
-    });
-
-    await Track.create(track);
+      user_id
+    );
     res.status(200).json(track);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -102,22 +99,14 @@ const createTrack = async (req, res) => {
 const deleteTrack = async (req, res) => {
   const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(404).json({ error: "Track not found" });
-  }
-
-  let t = await Track.findById(id);
+  let t = await getTrackSQL(id);
 
   await cloudinary.uploader.destroy(t.audio_cloudinary_id, {
     resource_type: "video",
   });
   await cloudinary.uploader.destroy(t.cover_cloudinary_id);
 
-  const track = await Track.findOneAndDelete({ _id: id });
-
-  if (!track) {
-    res.status(404).json({ error: "Track not found" });
-  }
+  const track = await deleteTrackSQL(id);
 
   res.status(200).json(track);
 };
@@ -125,11 +114,7 @@ const deleteTrack = async (req, res) => {
 const updateTrack = async (req, res) => {
   const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(404).json({ error: "Track not found" });
-  }
-
-  let t = await Track.findById(req.params.id);
+  let t = await getTrackSQL(id);
 
   await cloudinary.uploader.destroy(t.cover_cloudinary_id);
 
@@ -139,13 +124,20 @@ const updateTrack = async (req, res) => {
 
   const data = {
     title: req.body.title || t.name,
+    artist: req.body.artist || t.artist,
+    album: req.body.album || t.album,
     cover: result?.secure_url || t.cover,
-    audio: t.audio,
     cover_cloudinary_id: result?.public_id || t.cover_cloudinary_id,
-    audio_cloudinary_id: t.audio_cloudinary_id,
   };
 
-  const track = await Track.findOneAndUpdate({ _id: id }, data);
+  const track = await updateTrackSQL(
+    id,
+    data.title,
+    data.artist,
+    data.album,
+    data.cover,
+    data.cover_cloudinary_id
+  );
 
   if (!track) {
     res.status(404).json({ error: "Track not found" });
