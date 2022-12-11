@@ -10,8 +10,8 @@ function News() {
         <p>Auth Email</p>
         <p>Default Cover</p>
         <p>Fix Responsive</p>
-        <p>Convert MP3/test</p>
         <p>Control Upload</p>
+        <p>get meta data upload</p>
       </div>
     </article>
   );

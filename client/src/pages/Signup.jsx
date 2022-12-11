@@ -36,7 +36,10 @@ function Signup() {
           className="input"
         />
       </div>
-      <div disabled={isLoading} className="btn b" onClick={handleSubmit}>
+      <div
+        className={isLoading ? "disabled btn b" : "btn b"}
+        onClick={handleSubmit}
+      >
         Sign up
       </div>
       {error && <div style={{ color: "red" }}>{error}</div>}

@@ -9,7 +9,6 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await logInSQL(email, password);
-    // const user = await User.login(email, password);
     console.log(user);
 
     const token = createToken(user._id);

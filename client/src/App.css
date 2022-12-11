@@ -93,9 +93,6 @@ section:first-of-type > article:nth-child(2) {
   border: 1px solid #1e2630;
 }
 
-.btnb:hover {
-  background-color: #1e2630;
-}
 .btn:hover {
   background-color: #2e3945;
 }
@@ -106,4 +103,9 @@ input.error {
 
 label {
   margin-right: 10px;
+}
+
+.disabled {
+  pointer-events: none;
+  background-color: #2e3945;
 }

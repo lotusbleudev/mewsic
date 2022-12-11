@@ -36,7 +36,10 @@ function Login() {
           className="input"
         />
       </div>
-      <div className="btn b" disabled={isLoading} onClick={handleSubmit}>
+      <div
+        className={isLoading ? "disabled btn b" : "btn b"}
+        onClick={handleSubmit}
+      >
         Login
       </div>
       <button type="submit" style={{ display: "none" }}></button>

@@ -3,6 +3,8 @@ import { useTracksContext } from "../hooks/useTracksContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 function NewTrack() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const { dispatch } = useTracksContext();
   const { user } = useAuthContext();
   const [error, setError] = useState(null);
@@ -27,6 +29,7 @@ function NewTrack() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     if (!user) {
       setError("You must be logged in");
@@ -53,6 +56,7 @@ function NewTrack() {
     if (!res.ok) {
       setError(json.error);
       setEmptyFields(json.emptyFields);
+      setIsLoading(false);
     }
 
     if (res.ok) {
@@ -69,6 +73,7 @@ function NewTrack() {
         type: "NEW_TRACK",
         payload: json,
       });
+      setIsLoading(false);
     }
   };
 
@@ -151,7 +156,10 @@ function NewTrack() {
               style={{ paddingTop: "9px" }}
             />
           </div>
-          <div className="btn" onClick={handleSubmit}>
+          <div
+            className={isLoading ? "disabled btn" : "btn"}
+            onClick={handleSubmit}
+          >
             Submit
           </div>
           {error && <div style={{ color: "red" }}>{error}</div>}
